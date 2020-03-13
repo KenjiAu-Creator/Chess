@@ -62,4 +62,27 @@ describe 'Knight' do
       expect(game.find(1,2).piece).to eql(nil)
     end
   end
+
+  context 'Knight piece' do
+    it 'Checks moving 1,2 to 1,3 is a valid move' do
+      game = Board.new
+      startSpace = game.find(1,2)
+      stopSpace = game.find(1,3)
+      startSpace.setPiece(Knight.new(1,2))
+
+      expect(game.validMove(startSpace, stopSpace)).to eql(false)
+    end
+  end
+
+  context 'Knight piece' do
+    xit 'Checks if moving to a spot occupied by same team is valid' do
+      game = Board.new
+      startSpace = game.find(1,2)
+      stopSpace = game.find(2,4)
+      startSpace.setPiece(Knight.new(1,2))
+      stopSpace.setPiece(Pawn.new(2,4))
+
+      expect(game.validMove(startSpace, stopSpace)).to eql(false)
+    end
+  end
 end
