@@ -34,9 +34,31 @@ class Board
   end
 
   def move(startSpace,stopSpace)
-    start = find(startSpace.row,startSpace.column)
-    stop = find(stopSpace.row, stopSpace.column)
-    stop.setPiece(start.piece)
-    start.setPiece(nil)
+    if validMove(startSpace, stopSpace)
+      start = find(startSpace.row, startSpace.column)
+      stop = find(stopSpace.row, stopSpace.column)
+      stop.setPiece(start.piece)
+      start.setPiece(nil)
+    else
+      puts "Invalid move"
+    end
+  end
+
+  def validMove(startSpace, stopSpace)
+    piece = startSpace.piece
+
+    row = stopSpace.row
+    column = stopSpace.column
+    
+    piece.possibleMoves.each do |boardSpace|
+      startRow = boardSpace[0]
+      startCol = boardSpace[1]
+
+      if startRow == row && startCol == column
+        return true
+      end
+    end
+
+    return false
   end
 end
