@@ -3,6 +3,7 @@ require '../boardSpace.rb'
 require '../board.rb'
 require '../knight.rb'
 require '../pawn.rb'
+require '../rook.rb'
 
 describe 'boardSpace' do
   context '# New board space' do
@@ -71,6 +72,17 @@ describe 'Knight' do
       startSpace.setPiece(Knight.new(1,2))
 
       expect(game.validMove(startSpace, stopSpace)).to eql(false)
+    end
+  end
+end
+
+describe 'Rook piece' do
+  context '#New Rook piece' do
+    it 'Creates new Rook' do
+      game = Board.new
+      startSpace = game.find(1,1)
+      startSpace.setPiece(Rook.new(1,1, 'white'))
+      expect(game.find(1,1).piece).to be_a(Rook)
     end
   end
 end
