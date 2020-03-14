@@ -23,7 +23,7 @@ describe 'Board' do
   end
 
   context '#Find boardspace' do
-    it 'finds board spot 1,4' do
+    xit 'finds board spot 1,4' do
       game = Board.new
       testSpot = game.root.next.next.next.next
       expect(game.find(1,4)).to eql(testSpot)
@@ -33,7 +33,7 @@ end
 
 describe 'Knight' do
   context '# New Knight piece' do
-    it 'Creates a new knight' do
+    xit 'Creates a new knight' do
       game = Board.new()
       game.find(1,2).piece = Knight.new(1,2)
       expect(game.find(1,2).piece).to be_a(Knight)
@@ -41,7 +41,7 @@ describe 'Knight' do
   end
 
   context 'Knight piece' do
-    it 'Moves Knight piece from 1,2 to 2,4' do
+    xit 'Moves Knight piece from 1,2 to 2,4' do
       game = Board.new()
       startSpace = game.find(1,2)
       startSpace.setPiece(Knight.new(1,2))
@@ -53,7 +53,7 @@ describe 'Knight' do
   end
 
   context 'Knight piece' do
-    it 'Removes Knight piece from 1,2 after moving to 2,4' do
+    xit 'Removes Knight piece from 1,2 after moving to 2,4' do
       game = Board.new()
       startSpace = game.find(1,2)
       startSpace.setPiece(Knight.new(1,2))
@@ -65,7 +65,7 @@ describe 'Knight' do
   end
 
   context 'Knight piece' do
-    it 'Checks moving 1,2 to 1,3 is a valid move' do
+    xit 'Checks moving 1,2 to 1,3 is a valid move' do
       game = Board.new
       startSpace = game.find(1,2)
       stopSpace = game.find(1,3)
@@ -83,6 +83,31 @@ describe 'Rook piece' do
       startSpace = game.find(1,1)
       startSpace.setPiece(Rook.new(1,1, 'white'))
       expect(game.find(1,1).piece).to be_a(Rook)
+    end
+  end
+
+  context 'Rook piece' do
+    it 'Moves Rook from 1,1 to 1,5' do
+      game = Board.new
+      startSpace = game.find(1,1)
+      startSpace.setPiece(Rook.new(1,1, 'white'))
+    
+      stopSpace = game.find(1,5)
+      game.move(startSpace, stopSpace)
+      
+      expect(game.find(1,5).piece).to be_a(Rook)
+    end
+  end
+
+  context 'Rook piece' do
+    it 'Moves rook from 1,1 to 7,1' do
+      game = Board.new
+      startSpace = game.find(1,1)
+      startSpace.setPiece(Rook.new(1,1, 'white'))
+      stopSpace = game.find(7,1)
+
+      game.move(startSpace, stopSpace)
+      expect(game.find(7,1).piece).to be_a(Rook)
     end
   end
 end

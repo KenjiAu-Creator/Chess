@@ -5,6 +5,7 @@ class Rook
     @column = column
     @team = color
     @listMoves = []
+    possibleMoves
   end
 
   def possibleMoves
@@ -19,13 +20,13 @@ class Rook
     end
 
     for i in 1..8
-        if i == @row
-          next
-        end
-
-        move = [i, @column]
-        @listMoves.push(move)
+      if i == @row
+        next
       end
+
+      move = [i, @column]
+      @listMoves.push(move)
+    end
   end
 
   def resetMoves
