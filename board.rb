@@ -37,10 +37,16 @@ class Board
     if validMove(startSpace, stopSpace)
       start = find(startSpace.row, startSpace.column)
       stop = find(stopSpace.row, stopSpace.column)
+      
       stop.setPiece(start.piece)
+      stop.piece.resetMoves
+      stop.piece.updatePosition(stop.row, stop.column)
+      stop.piece.possibleMoves
+      
       start.setPiece(nil)
     else
       puts "Invalid move"
+      return false
     end
   end
 
@@ -50,7 +56,7 @@ class Board
     row = stopSpace.row
     column = stopSpace.column
     
-    piece.possibleMoves.each do |boardSpace|
+    piece.listMoves.each do |boardSpace|
       startRow = boardSpace[0]
       startCol = boardSpace[1]
 
