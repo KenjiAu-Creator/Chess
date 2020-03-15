@@ -106,4 +106,15 @@ describe 'bishop' do
       expect(game.validMove(startSpace, stopSpace)).to eql(false)
     end
   end
+
+  context '#Move Bishop' do
+    it 'checks moving from 1,3 to 2,2 is a valid move' do
+      game = Board.new
+      startSpace = game.find(1,3)
+      stopSpace = game.find(2,2)
+      startSpace.setPiece(Bishop.new(1,3, 'white'))
+      game.move(startSpace, stopSpace)
+      expect(game.find(2,2).piece).to be_a(Bishop)
+    end
+  end
 end
