@@ -50,7 +50,7 @@ class Board
     row = stopSpace.row
     column = stopSpace.column
     
-    piece.possibleMoves.each do |boardSpace|
+    piece.listMoves.each do |boardSpace|
       startRow = boardSpace[0]
       startCol = boardSpace[1]
 
