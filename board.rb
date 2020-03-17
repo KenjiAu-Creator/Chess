@@ -51,20 +51,70 @@ class Board
   end
 
   def validMove(startSpace, stopSpace)
-    piece = startSpace.piece
+    iML = inMoveList?(startSpace, stopSpace)
+    if sameSpace?(startSpace, stopSpace)
+      return false
+    elsif !iML[0]
+      return false
+    elsif collision?(startSpace, stopSpace)
+      return false
+    elsif blocked?(startSpace, iML[1])
+      return false
+    else
+      return true
+    end
+  end
+  
+  def sameSpace?(startSpace, stopSpace)
+    if startSpace == stopSpace
+      return true
+    else
+      return false
+    end
+  end
 
+  def inMoveList?(startSpace, stopSpace)
     row = stopSpace.row
     column = stopSpace.column
-    
+    count = 0
     piece.listMoves.each do |boardSpace|
       startRow = boardSpace[0]
       startCol = boardSpace[1]
 
       if startRow == row && startCol == column
+        return [true, count]
+      end
+      count += 1
+    end
+    return false    
+  end
+
+  def collision?(startSpace, stopSpace)
+    #Returns true if a piece of the same color is on the stop space
+    piece = startSpace.piece
+    if (startSpace.piece == stopSpace.piece)
+      return true
+    else
+      false
+    end
+  end
+
+  def blocked?(startSpace, index)
+    #Returns true if the moving piece has a another piece in its path to the desired space
+    listOfMoves = startSpace.piece.listMoves
+    rootRow = startSpace.row
+    rootCol = start.space.column
+    count = index
+    until (listOfMoves[count][0] == rootRow && listOfMoves[count][1] == rootCol)
+      row = listOfMoves[count][0]
+      column = moves[count][1]
+      space = find(row, column)
+    
+      if !space.piece.nil?
         return true
       end
     end
-
+    
     return false
   end
 end
