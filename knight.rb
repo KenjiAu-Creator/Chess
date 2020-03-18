@@ -3,12 +3,13 @@ class Knight
   # It is initialized by a row and column parameter.
   # Moving the piece will require an input of where the piece wishes to go.
 
-  attr_accessor :row, :column, :listMoves
+  attr_accessor :row, :column, :listMoves, :team
 
-  def initialize(row,column)
+  def initialize(row,column, color)
     @row = row
     @column = column
     @listMoves = []
+    @team = color
     possibleMoves()
   end
 
