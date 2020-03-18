@@ -224,3 +224,35 @@ describe 'bishop' do
     end
   end
 end
+describe 'Queen piece' do
+  context '#New Queen piece' do
+    it 'Creates a new queen' do
+      game = Board.new
+      startSpace = game.find(1,5)
+      startSpace.setPiece(Queen.new(1,5,'white'))
+      expect(game.find(1,5).piece).to be_a(Queen)
+    end
+  end
+
+  context '#Move Queen like bishop' do
+    it 'Moves like a bishop' do
+      game = Board.new
+      startSpace = game.find(1,5)
+      startSpace.setPiece(Queen.new(1,5,'white'))
+      stopSpace = game.find(3,7)
+      game.move(startSpace, stopSpace)
+      expect(game.find(3,7).piece).to be_a(Queen)
+    end
+  end
+
+  context '#Move queen' do
+    it 'Moves like a rook' do
+      game = Board.new
+      startSpace = game.find(1,5)
+      startSpace.setPiece(Queen.new(1,5,'white'))
+      stopSpace = game.find(6,5)
+      game.move(startSpace, stopSpace)
+      expect(game.find(6,5).piece).to be_a(Queen)
+    end
+  end
+end

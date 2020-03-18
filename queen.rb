@@ -1,6 +1,7 @@
 class Queen
   # Future work may include making the class include / extend other classes instead.
   attr_accessor :row, :columm, :team, :listMoves
+  
   def initialize(row, column, color)
     @row = row
     @column = column
@@ -9,7 +10,7 @@ class Queen
     possibleMoves()
   end
 
-  def reset
+  def resetMoves
     @listMoves = []
   end
 
@@ -20,12 +21,13 @@ class Queen
 
   def possibleMoves
     rookMoves()
-    knightMoves()
     bishopMoves()
     kingMoves()
   end
 
   def rookMoves
+    @listMoves.push([@row, @column])
+
     for i in 1..8
       if i == @column
         next
@@ -35,6 +37,7 @@ class Queen
       @listMoves.push(move)
     end
 
+    @listMoves.push([@row, @column])
     for i in 1..8
       if i == @row
         next
@@ -48,48 +51,48 @@ class Queen
   def bishopMoves
     row = @row
     col = @column
+
     while row < 8 && col < 8
-      row += 1
-      col += 1
-      move = [row, col]
-      @listMoves.push(move)
-    end
-
-    row = @row
-    col = @column
-    while row < 8 && col > 1
-      row += 1
-      col -= 1
-      move = [move, col]
-      @listMoves.push(move)
-    end
-
-    row = @row
-    col = @column
-    while row > 1 && col < 8
-      row -= 1
-      col += 1
-      move = [row.col]
-      @listMoves.push(move)
-    end
-
-    row = @row
-    col = @column
-    while row > 1 && col > 1
-      row -= 1
-      col -= 1
       move = [row,col]
       @listMoves.push(move)
+      row += 1
+      col += 1
+    end
+
+    row = @row
+    col = @column
+
+    while row < 8 && col > 1
+      move = [row,col]
+      @listMoves.push(move)
+      row += 1
+      col -= 1
+    end
+
+    row = @row
+    col = @column
+
+    while row > 1 && col < 8
+      move = [row,col]
+      @listMoves.push(move)
+      row -= 1
+      col += 1
+    end
+
+    row = @row
+    col = @column
+
+    while row > 1 && col > 1
+      move = [row,col]
+      @listMoves.push(move)
+      row -= 1
+      col -= 1
     end
   end
 
   def kingMoves
     for i in -1..1
       for j in -1..1
-        if (i == 0 && j == 0)
-          next
-        end
-  
         row = @row + i
         col = @column + j
   
