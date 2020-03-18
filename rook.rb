@@ -10,6 +10,7 @@ class Rook
 
   def possibleMoves
     # The Rook piece can move vertically or horizontally across the board
+    @listMoves.push([@row, @column])
     for i in 1..8
       if i == @column
         next
@@ -19,6 +20,7 @@ class Rook
       @listMoves.push(move)
     end
 
+    @listMoves.push([@row, @column])
     for i in 1..8
       if i == @row
         next

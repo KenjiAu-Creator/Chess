@@ -122,10 +122,8 @@ describe 'Rook piece' do
       game = Board.new
       startSpace = game.find(1,1)
       startSpace.setPiece(Rook.new(1,1, 'white'))
-    
       stopSpace = game.find(1,5)
       game.move(startSpace, stopSpace)
-      
       expect(game.find(1,5).piece).to be_a(Rook)
     end
   end
@@ -138,6 +136,48 @@ describe 'Rook piece' do
       stopSpace = game.find(7,1)
       game.move(startSpace, stopSpace)
       expect(game.find(7,1).piece).to be_a(Rook)
+    end
+  end
+end
+
+describe 'King piece' do
+  context '#New King piece' do
+    it 'Creates the king' do
+      game = Board.new
+      startSpace = game.find(1,4)
+      startSpace.setPiece(King.new(1,4,'white'))
+      expect(game.find(1,4).piece).to be_a(King)
+    end
+  end
+
+  context '#Move king piece' do
+    it 'Moves the king one space to the left' do
+      game = Board.new
+      startSpace = game.find(1,4)
+      stopSpace = game.find(1,3)
+      startSpace.setPiece(King.new(1,4,'white'))
+      game.move(startSpace, stopSpace)
+      expect(game.find(1,3).piece).to be_a(King)
+    end
+  end
+
+  context '#Move king piece' do
+    it "Tries to move the kind two spaces" do
+      game = Board.new
+      startSpace = game.find(1,3)
+      stopSpace = game.find(1,5)
+      startSpace.setPiece(King.new(1,3,'white'))
+      expect(game.validMove(startSpace, stopSpace)).to eql(false)
+    end
+  end
+  
+  context '#Move King piece' do
+    it "Tries to move king off the board" do
+      game = Board.new
+      startSpace = game.find(1,3)
+      startSpace.setPiece(King.new(1, 3, 'white'))
+      stopSpace = BoardSpace.new(0,3)
+      expect(game.validMove(startSpace, stopSpace)).to eql(false)
     end
   end
 end

@@ -100,7 +100,7 @@ class Board
   end
 
   def blocked?(startSpace, index)
-    #Returns true if the moving piece has a another piece in its path to the desired space
+    # Returns true if the moving piece has a another piece in its path to the desired space
     listOfMoves = startSpace.piece.listMoves
     rootRow = startSpace.row
     rootCol = startSpace.column
