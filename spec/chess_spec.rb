@@ -20,7 +20,7 @@ describe 'Board' do
   end
 
   context '#Find boardspace' do
-    xit 'finds board spot 1,4' do
+    it 'finds board spot 1,4' do
       game = Board.new
       testSpot = game.root.next.next.next.next
       expect(game.find(1,4)).to eql(testSpot)
@@ -30,7 +30,7 @@ end
 
 describe 'Knight' do
   context '# New Knight piece' do
-    xit 'Creates a new knight' do
+    it 'Creates a new knight' do
       game = Board.new()
       game.find(1,2).piece = Knight.new(1,2)
       expect(game.find(1,2).piece).to be_a(Knight)
@@ -38,7 +38,7 @@ describe 'Knight' do
   end
 
   context 'Knight piece' do
-    xit 'Moves Knight piece from 1,2 to 2,4' do
+    it 'Moves Knight piece from 1,2 to 2,4' do
       game = Board.new()
       startSpace = game.find(1,2)
       startSpace.setPiece(Knight.new(1,2))
@@ -50,7 +50,7 @@ describe 'Knight' do
   end
 
   context 'Knight piece' do
-    xit 'Removes Knight piece from 1,2 after moving to 2,4' do
+    it 'Removes Knight piece from 1,2 after moving to 2,4' do
       game = Board.new()
       startSpace = game.find(1,2)
       startSpace.setPiece(Knight.new(1,2))
@@ -62,7 +62,7 @@ describe 'Knight' do
   end
 
   context 'Knight piece' do
-    xit 'Checks moving 1,2 to 1,3 is a valid move' do
+    it 'Checks moving 1,2 to 1,3 is a valid move' do
       game = Board.new
       startSpace = game.find(1,2)
       stopSpace = game.find(1,3)
