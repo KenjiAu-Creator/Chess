@@ -54,7 +54,7 @@ class Board
     iML = inMoveList?(startSpace, stopSpace)
     if sameSpace?(startSpace, stopSpace)
       return false
-    elsif !iML[0]
+    elsif !(iML[0])
       return false
     elsif collision?(startSpace, stopSpace)
       return false
@@ -77,7 +77,7 @@ class Board
     row = stopSpace.row
     column = stopSpace.column
     count = 0
-    piece.listMoves.each do |boardSpace|
+    startSpace.piece.listMoves.each do |boardSpace|
       startRow = boardSpace[0]
       startCol = boardSpace[1]
 
@@ -86,7 +86,7 @@ class Board
       end
       count += 1
     end
-    return false    
+    return [false,0]    
   end
 
   def collision?(startSpace, stopSpace)
@@ -103,16 +103,17 @@ class Board
     #Returns true if the moving piece has a another piece in its path to the desired space
     listOfMoves = startSpace.piece.listMoves
     rootRow = startSpace.row
-    rootCol = start.space.column
+    rootCol = startSpace.column
     count = index
     until (listOfMoves[count][0] == rootRow && listOfMoves[count][1] == rootCol)
       row = listOfMoves[count][0]
-      column = moves[count][1]
+      column = listOfMoves[count][1]
       space = find(row, column)
     
       if !space.piece.nil?
         return true
       end
+      count -= 1
     end
     
     return false

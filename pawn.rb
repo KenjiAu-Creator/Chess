@@ -9,7 +9,7 @@ class Pawn
   end
 
   def possibleMoves
-    @listMoves.push([0,0])
+    @listMoves.push([@row,@column])
     if @team == 'white'
       move = [@row + 1, column]
       @listMoves.push(move)

@@ -1,8 +1,6 @@
-require '../chess.rb'
-require '../boardSpace.rb'
-require '../board.rb'
-require '../knight.rb'
-require '../pawn.rb'
+Dir["/home/kenji/the_odin_project/Ruby_Programming/Chess/*.rb"].each do |file|
+  require file
+end
 
 describe 'boardSpace' do
   context '# New board space' do
@@ -73,7 +71,7 @@ describe 'Knight' do
       expect(game.validMove(startSpace, stopSpace)).to eql(false)
     end
   end
-
+end
   describe 'Pawn piece' do
     context '# New pawn piece' do
       it "Creates new pawn" do
@@ -132,8 +130,7 @@ describe 'Knight' do
         startSpace = game.find(6,1)
         startSpace.setPiece(Pawn.new(6,1, 'black'))
         stopSpace = game.find(7,1)
-        expect(game.move(startSpace, stopSpace)).to eql(false)
+        expect(game.validMove(startSpace, stopSpace)).to eql(false)
       end
     end
   end
-end
