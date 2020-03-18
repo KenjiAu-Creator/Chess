@@ -72,65 +72,72 @@ describe 'Knight' do
     end
   end
 end
-  describe 'Pawn piece' do
-    context '# New pawn piece' do
-      it "Creates new pawn" do
-        game = Board.new
-        startSpace = game.find(2,1)
-        startSpace.setPiece(Pawn.new(2,1, 'white'))
 
-        expect(game.find(2,1).piece).to be_a(Pawn)
-      end
-    end
+describe 'Pawn piece' do
+  context '# New pawn piece' do
+     it "Creates new pawn" do
+      game = Board.new
+      startSpace = game.find(2,1)
+      startSpace.setPiece(Pawn.new(2,1, 'white'))
 
-    context '#Move pawn piece' do
-      it 'Moves pawn from 2,2 to 3,2' do
-        game = Board.new
-        startSpace = game.find(2,2)
-        startSpace.setPiece(Pawn.new(2, 2, 'white'))
-        stopSpace = game.find(3,2)
-        game.move(startSpace, stopSpace)
-        expect(game.find(3,2).piece).to be_a(Pawn)
-
-      end
-    end
-
-    context '#Move pawn piece' do
-      it 'Moves pawn twice' do
-        game = Board.new
-        startSpace = game.find(2,2)
-        startSpace.setPiece(Pawn.new(2,2,'white'))
-        midSpace = game.find(3,2)
-        # First move
-        game.move(startSpace,midSpace)
-
-        # Second move
-        stopSpace = game.find(4,2)
-        game.move(midSpace,stopSpace)
-
-        expect(game.find(4,2).piece).to be_a(Pawn)
-      end
-    end
-
-    context '#Move black pawn piece' do
-      it 'Moves black pawn one spot' do
-        game = Board.new
-        startSpace = game.find(7,1)
-        startSpace.setPiece(Pawn.new(7,1, 'black'))
-        stopSpace = game.find(6,1)
-
-        game.move(startSpace, stopSpace)
-        expect(game.find(6,1).piece).to be_a(Pawn)
-      end
-    end
-
-    context '#Move black pawn' do
-      it 'Invalid move with black moving backwards' do
-        game = Board.new
-        startSpace = game.find(6,1)
-        startSpace.setPiece(Pawn.new(6,1, 'black'))
-        stopSpace = game.find(7,1)
-        expect(game.validMove(startSpace, stopSpace)).to eql(false)
-      end
+      expect(game.find(2,1).piece).to be_a(Pawn)
     end
   end
+
+  context '#Move pawn piece' do
+    it 'Moves pawn from 2,2 to 3,2' do
+      game = Board.new
+      startSpace = game.find(2,2)
+      startSpace.setPiece(Pawn.new(2, 2, 'white'))
+      stopSpace = game.find(3,2)
+      game.move(startSpace, stopSpace)
+      expect(game.find(3,2).piece).to be_a(Pawn)
+
+    end
+  end
+
+  context '#Move black pawn' do
+    it 'Invalid move with black moving backwards' do
+      game = Board.new
+      startSpace = game.find(6,1)
+      startSpace.setPiece(Pawn.new(6,1, 'black'))
+      stopSpace = game.find(7,1)
+      expect(game.validMove(startSpace, stopSpace)).to eql(false)
+    end
+  end
+end
+
+describe 'Rook piece' do
+  context '#New Rook piece' do
+    it 'Creates new Rook' do
+      game = Board.new
+      startSpace = game.find(1,1)
+      startSpace.setPiece(Rook.new(1,1, 'white'))
+      expect(game.find(1,1).piece).to be_a(Rook)
+    end
+  end
+
+  context 'Rook piece' do
+    it 'Moves Rook from 1,1 to 1,5' do
+      game = Board.new
+      startSpace = game.find(1,1)
+      startSpace.setPiece(Rook.new(1,1, 'white'))
+    
+      stopSpace = game.find(1,5)
+      game.move(startSpace, stopSpace)
+      
+      expect(game.find(1,5).piece).to be_a(Rook)
+    end
+  end
+
+  context 'Rook piece' do
+    it 'Moves rook from 1,1 to 7,1' do
+      game = Board.new
+      startSpace = game.find(1,1)
+      startSpace.setPiece(Rook.new(1,1, 'white'))
+      stopSpace = game.find(7,1)
+      game.move(startSpace, stopSpace)
+      expect(game.find(7,1).piece).to be_a(Rook)
+    end
+  end
+end
