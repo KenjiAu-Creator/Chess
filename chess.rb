@@ -9,7 +9,7 @@ require_relative 'pawn.rb'
 class Chess
   def initialize()
     @chessBoard = Board.new
-    playerInitialize()
+    playersInitialize()
     placePieces()
     playGame()
   end
@@ -60,24 +60,69 @@ class Chess
   end
 
 
-  def playerInitialize
-    @playerList = [Player.new(1, 'white'), Player.new(2, 'black')]
+  def playersInitialize
+    @players = [Player.new(0, 'white'), Player.new(1, 'black')]
+    @currentPlayerId = 0
   end
 
   def playGame()
+    #playerMove()
+    
+  end
+
+  def playerMove()
+    puts "Player #{@players[@currentPlayerId].team} turn"
+    puts "Please enter which piece you would like to move."
+    puts "Use #,# to pick the space."
+    startSpace = gets.chomp()
+    startBoardSpace = @chessBoard.find(startSpace[0], startSpace[2])
+    puts "Please enter which space you would like to move to."
+    puts "Use #,# to pick the space."
+    stopSpace = gets.chomp()
+    stopBoardSpace = @chessBoard.find(stopSpace[0], stopSpace[2])
+    
+    @chessBoard.move(startBoardSpace, stopBoardSpace)
 
   end
 
+  def switchPlayers
+    @currentPlayerId = otherPlayerId
+    return @currentPlayerId
+  end
+
+  def currentPlayer
+    @players[@currentPlayerId]
+  end
+
+  def otherPlayerId
+    1 - @currentPlayerId
+  end
+
+  def winCondition
+    
+  end
 end
 
 class Player
-  attr_reader :Id, :team
+  attr_reader :Id, :team, :pieceList
 
   def initialize(id, color)
     @Id = id
     @team = color
+    @pieceList = {
+      'king' => 1,
+      'queen' => 1,
+      'bishop' => 2,
+      'rook' => 2,
+      'knight' => 2,
+      'pawn' => 8,
+    }
   end
 
+  def updatePieceCount(piece, count)
+    @pieceList[piece] = count
+  end
+    
 end
 
 game = Chess.new
