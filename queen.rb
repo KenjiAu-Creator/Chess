@@ -1,12 +1,13 @@
 class Queen
   # Future work may include making the class include / extend other classes instead.
-  attr_accessor :row, :columm, :team, :listMoves
+  attr_accessor :row, :columm, :team, :listMoves, :name
   
   def initialize(row, column, color)
     @row = row
     @column = column
     @team = color
     @listMoves = []
+    @name = 'queen'
     possibleMoves()
   end
 

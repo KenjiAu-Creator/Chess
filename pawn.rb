@@ -1,10 +1,12 @@
 class Pawn
-  attr_accessor :row, :column, :color, :possibleMoves, :listMoves
+  attr_accessor :row, :column, :color, :possibleMoves, :listMoves, :name
+
   def initialize(row, column, color)
     @row = row
     @column = column
     @team = color
     @listMoves = []
+    @name = 'pawn'
     possibleMoves
   end
 

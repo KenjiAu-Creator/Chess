@@ -29,4 +29,15 @@ describe 'Player' do
       expect(player1.pieceList['king']).to eql(0)
     end
   end
+
+end
+
+describe "Chess" do
+  context 'Checks board count' do
+    it 'Checks pieces count' do
+      game = Chess.new
+      test = game.pieceCount
+      expect(test).to eql(game.players[0].pieceList)
+    end
+  end
 end

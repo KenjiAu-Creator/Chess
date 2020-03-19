@@ -7,6 +7,8 @@ require_relative 'king.rb'
 require_relative 'pawn.rb'
 
 class Chess
+  attr_reader :players
+
   def initialize()
     @chessBoard = Board.new
     playersInitialize()
@@ -100,6 +102,27 @@ class Chess
 
   def winCondition
     
+  end
+
+  def pieceCount
+    pieceList = players[@currentPlayerId].pieceList
+    pieceList.each do |key, value|
+      count = 0
+      current = @chessBoard.root.next
+      until current == @chessBoard.find(8,8)
+        if current.piece.nil?
+          current = current.next
+          next
+        elsif current.piece.name == key
+          count += 1
+        end
+        current = current.next
+      end
+      
+      players[@currentPlayerId].updatePieceCount(key,count)
+    end
+
+    return players[@currentPlayerId].pieceList
   end
 end
 

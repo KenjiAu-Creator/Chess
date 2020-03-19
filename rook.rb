@@ -1,10 +1,11 @@
 class Rook
-  attr_accessor :row, :column, :team, :listMoves
+  attr_accessor :row, :column, :team, :listMoves, :name
   def initialize(row, column, color)
     @row = row
     @column = column
     @team = color
     @listMoves = []
+    @name = 'rook'
     possibleMoves
   end
 

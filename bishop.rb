@@ -1,10 +1,11 @@
 class Bishop
-  attr_accessor :row, :column, :listMoves
+  attr_accessor :row, :name, :column, :listMoves
   def initialize(row, column, color)
     @row = row
     @column = column
     @team = color
     @listMoves = []
+    @name = 'bishop'
     possibleMoves()
   end
 
