@@ -37,19 +37,102 @@ class Chess
     kingW = "\u265A"
     pawnW = "\u265F"
 
-    row0 = "H|_#{rookB}_|_#{knightB}_|_#{bishopB}_|_#{queenB}_|_#{kingB}_|_#{bishopB}_|_#{knightB}_|_#{rookB}_|"
-    row8 = "G|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|"
-    row7 = "F|___|___|___|___|___|___|___|___|"
-    row6 = "E|___|___|___|___|___|___|___|___|"
-    row5 = "D|___|___|___|___|___|___|___|___|"
-    row4 = "C|___|___|___|___|___|___|___|___|"
-    row3 = "B|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|"
-    row2 = "A|_#{rookW}_|_#{knightW}_|_#{bishopW}_|_#{queenW}_|_#{kingW}_|_#{bishopW}_|_#{knightW}_|_#{rookW}_|"
-    row1 = "   1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 "
+    row8 = "H|_#{rookB}_|_#{knightB}_|_#{bishopB}_|_#{queenB}_|_#{kingB}_|_#{bishopB}_|_#{knightB}_|_#{rookB}_|"
+    row7 = "G|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|_#{pawnB}_|"
+    row6 = "F|___|___|___|___|___|___|___|___|"
+    row5 = "E|___|___|___|___|___|___|___|___|"
+    row4 = "D|___|___|___|___|___|___|___|___|"
+    row3 = "C|___|___|___|___|___|___|___|___|"
+    row2 = "B|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|_#{pawnW}_|"
+    row1 = "A|_#{rookW}_|_#{knightW}_|_#{bishopW}_|_#{queenW}_|_#{kingW}_|_#{bishopW}_|_#{knightW}_|_#{rookW}_|"
+    row0 = "   1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 "
 
-    board = [row0,row8,row7,row6,row5,row4,row3,row2,row1]
-    puts board
+    @board = [row0, row1, row2, row3, row4, row5, row6, row7, row8]
+    puts @board.reverse
+  end
 
+  def updateBoard(startSpace, stopSpace, playerId, piece)
+    # BoardSpace input as [#,#]
+    row = startSpace.row
+    column = startSpace.column
+    
+    case column
+    when 1
+      colIndex = 3
+    when 2
+      colIndex = 7
+    when 3
+      colIndex = 11
+    when 4
+      colIndex = 15
+    when 5
+      colIndex = 19
+    when 6
+      colIndex = 23
+    when 7
+      colIndex = 27
+    when 8
+      colIndex = 31
+    end
+    
+    @board[row][colIndex] = "_"
+
+    row = stopSpace.row
+    column = stopSpace.column
+    
+    case column
+    when 1
+      colIndex = 3
+    when 2
+      colIndex = 7
+    when 3
+      colIndex = 11
+    when 4
+      colIndex = 15
+    when 5
+      colIndex = 19
+    when 6
+      colIndex = 23
+    when 7
+      colIndex = 27
+    when 8
+      colIndex = 31
+    end
+
+    case playerId
+    when 1
+      case piece
+      when 'knight'
+        token = "\u2658"
+      when 'rook'
+        token = "\u2656"
+      when 'bishop'
+        token = "\u2657"
+      when 'queen'
+        token = "\u2655"
+      when 'king' 
+        token = "\u2654"
+      when 'pawn'
+        token = "\u2659"
+      end
+    when 0
+      case piece
+      when 'knight'
+        token = "\u265E"
+      when 'rook'
+        token = "\u265C"
+      when 'bishop'
+        token = "\u265D"
+      when 'queen'
+        token = "\u265B"
+      when 'king'
+        token = "\u265A"
+      when 'pawn'
+        token = "\u265F"
+      end
+    end
+    @board[row][colIndex] = token
+    puts @board.reverse
   end
 
   def placePieces
@@ -106,24 +189,69 @@ class Chess
   def playGame()
     intro()
     while !gameOver?
-      playerMove()
-      updateBoard()
+      startSpace, stopSpace = getPlayerMove()
+      updateBoard(startSpace, stopSpace, @currentPlayerId, stopSpace.piece.name)
       switchPlayers()
     end
   end
 
-  def playerMove()
+  def getPlayerMove()
     puts "#{@players[@currentPlayerId].team}\'s turn"
     puts "Please enter which piece you would like to move."
-    puts "Use #,# to pick the space."
-    startSpace = gets.chomp()
-    startBoardSpace = @chessBoard.find(startSpace[0], startSpace[2])
+    puts "Use the format [Letter, number]."
+    startSpaceString = gets.chomp()
+    row = startSpaceString[0]
+
+    case row
+    when 'A'
+      rowIndex = 1
+    when 'B'
+      rowIndex = 2
+    when 'C'
+      rowIndex = 3
+    when 'D'
+      rowIndex = 4
+    when 'E'
+      rowIndex = 5
+    when 'F'
+      rowIndex = 6
+    when 'G'
+      rowIndex = 7
+    when 'H'
+      rowIndex = 8
+    end
+
+    col = startSpaceString[2].to_i
+    startBoardSpace = @chessBoard.find(rowIndex, col)
+
     puts "Please enter which space you would like to move to."
-    puts "Use #,# to pick the space."
-    stopSpace = gets.chomp()
-    stopBoardSpace = @chessBoard.find(stopSpace[0], stopSpace[2])
-    
+    puts "Use the format [Letter, number]."
+    stopSpaceString = gets.chomp()
+    row = stopSpaceString[0]
+    case row
+    when 'A'
+      rowIndex = 1
+    when 'B'
+      rowIndex = 2
+    when 'C'
+      rowIndex = 3
+    when 'D'
+      rowIndex = 4
+    when 'E'
+      rowIndex = 5
+    when 'F'
+      rowIndex = 6
+    when 'G'
+      rowIndex = 7
+    when 'H'
+      rowIndex = 8
+    end
+    col = stopSpaceString[2].to_i
+    stopBoardSpace = @chessBoard.find(rowIndex, col)
+
     @chessBoard.move(startBoardSpace, stopBoardSpace)
+
+    return startBoardSpace, stopBoardSpace
 
   end
 

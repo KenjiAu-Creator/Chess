@@ -24,7 +24,7 @@ class Board
   end
 
   def find(row,col)
-    current = @root
+    current = @root.next
     while !((row == current.row) && (col == current.column))
       current = current.next
     end

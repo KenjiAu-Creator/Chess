@@ -12,10 +12,10 @@ class Pawn
 
   def possibleMoves
     @listMoves.push([@row,@column])
-    if @team == 'white'
+    if @team == 'White'
       move = [@row + 1, column]
       @listMoves.push(move)
-    elsif @team == 'black'
+    elsif @team == 'Black'
       move = [@row - 1, column]
       @listMoves.push(move)
     end
