@@ -40,4 +40,20 @@ describe "Chess" do
       expect(test).to eql(game.players[0].pieceList)
     end
   end
+
+  context 'Checks king count' do
+    it 'Not game over' do
+      game = Chess.new
+      game.players[0].updatePieceCount('king',1)
+      expect(game.gameOver?).to eql(false)
+    end
+  end
+
+  context 'Checks king count' do
+    it 'Game over' do
+      game = Chess.new
+      game.players[0].updatePieceCount('king',0)
+      expect(game.gameOver?).to eql(true)
+    end
+  end
 end
