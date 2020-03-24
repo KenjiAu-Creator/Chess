@@ -7,7 +7,7 @@ require_relative 'king.rb'
 require_relative 'pawn.rb'
 
 class Chess
-  attr_reader :players
+  attr_reader :players, :chessBoard
 
   def initialize()
     @chessBoard = Board.new
@@ -131,6 +131,7 @@ class Chess
         token = "\u265F"
       end
     end
+
     @board[row][colIndex] = token
     puts @board.reverse
   end
@@ -223,6 +224,7 @@ class Chess
 
     col = startSpaceString[2].to_i
     startBoardSpace = @chessBoard.find(rowIndex, col)
+    puts startBoardSpace.piece.listMoves.inspect
 
     puts "Please enter which space you would like to move to."
     puts "Use the format [Letter, number]."
@@ -246,12 +248,15 @@ class Chess
     when 'H'
       rowIndex = 8
     end
+
     col = stopSpaceString[2].to_i
     stopBoardSpace = @chessBoard.find(rowIndex, col)
 
-    @chessBoard.move(startBoardSpace, stopBoardSpace)
-
-    return startBoardSpace, stopBoardSpace
+    if @chessBoard.move(startBoardSpace, stopBoardSpace)
+      return startBoardSpace, stopBoardSpace
+    else
+      getPlayerMove()
+    end
 
   end
 
