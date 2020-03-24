@@ -56,4 +56,5 @@ describe "Chess" do
       expect(game.gameOver?).to eql(true)
     end
   end
+
 end

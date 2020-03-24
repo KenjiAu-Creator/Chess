@@ -16,6 +16,7 @@ class Board
   def size
     currentSpace = @root.next
     count = 0
+
     while !currentSpace.nil?
       count += 1
       currentSpace = currentSpace.next
@@ -44,6 +45,7 @@ class Board
       stop.piece.possibleMoves
       
       start.setPiece(nil)
+      return true
     else
       puts "Invalid move"
       return false
@@ -52,14 +54,26 @@ class Board
 
   def validMove(startSpace, stopSpace)
     iML = inMoveList?(startSpace, stopSpace)
+
+    if startSpace.piece.name == "pawn"
+      if !pawnMove(startSpace, stopSpace)
+        return false
+      end
+    end
+
     if sameSpace?(startSpace, stopSpace)
+      # Makes sure the start isn't the ending space
       return false
+
     elsif !(iML[0])
       return false
+
     elsif collision?(startSpace, stopSpace)
       return false
+
     elsif blocked?(startSpace, iML[1])
       return false
+
     else
       return true
     end
@@ -74,9 +88,13 @@ class Board
   end
 
   def inMoveList?(startSpace, stopSpace)
+    # Returns true if the ending space is possible for the piece.
+    # Returns the index for the list of moves for the respective piece as well. 
+
     row = stopSpace.row
     column = stopSpace.column
     count = 0
+
     startSpace.piece.listMoves.each do |boardSpace|
       startRow = boardSpace[0]
       startCol = boardSpace[1]
@@ -84,15 +102,23 @@ class Board
       if startRow == row && startCol == column
         return [true, count]
       end
+
       count += 1
     end
+
     return [false,0]    
   end
 
   def collision?(startSpace, stopSpace)
     #Returns true if a piece of the same color is on the stop space
-    piece = startSpace.piece
-    if (startSpace.piece == stopSpace.piece)
+    attackPiece = startSpace.piece
+    defendPiece = stopSpace.piece
+
+    if defendPiece.nil?
+      return false
+    end
+
+    if (attackPiece.team == defendPiece.team)
       return true
     else
       false
@@ -101,10 +127,15 @@ class Board
 
   def blocked?(startSpace, index)
     # Returns true if the moving piece has a another piece in its path to the desired space
+
     listOfMoves = startSpace.piece.listMoves
     rootRow = startSpace.row
     rootCol = startSpace.column
-    count = index
+    count = index - 1
+
+    # Starts at right before the index (end spot) and checks if a piece exists.
+    # Works backwards until it is at the starting space.
+
     until (listOfMoves[count][0] == rootRow && listOfMoves[count][1] == rootCol)
       row = listOfMoves[count][0]
       column = listOfMoves[count][1]
@@ -117,5 +148,25 @@ class Board
     end
     
     return false
+  end
+
+  def pawnMove(startSpace, stopSpace)
+    if (startSpace.column - stopSpace.column).abs == 1
+      if !stopSpace.piece.nil?
+        return true
+      else
+        return false
+      end
+
+    elsif startSpace.column == stopSpace.column
+      if stopSpace.piece.nil?
+        return true
+      else
+        return false
+      end
+
+    else
+      return false
+    end
   end
 end
