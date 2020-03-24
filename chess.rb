@@ -14,13 +14,9 @@ class Chess
     playersInitialize()
     placePieces()
     displayBoard()
-    playGame()
+    #playGame()
   end
 
-  def intro
-    puts "Welcome to the game of Chess."
-    puts "The objective of this game is to take the other players King piece."
-  end
 
   def displayBoard
     knightB = "\u2658"
@@ -187,7 +183,6 @@ class Chess
   end
 
   def playGame()
-    intro()
     while !gameOver?
       startSpace, stopSpace = getPlayerMove()
       updateBoard(startSpace, stopSpace, @currentPlayerId, stopSpace.piece.name)

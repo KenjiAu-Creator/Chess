@@ -169,4 +169,43 @@ class Board
       return false
     end
   end
+
+  def kingMove(startSpace, stopSpace)
+    #This method will return true if the king can move
+    # It will return false if the position is a check
+    # Need to check each of the kings moves and then check through each of the opposing players pieces to see
+    # if it is included
+  end
+
+  def checkPossible?(startSpace)
+    # Checks if the king piece is in the current piece's possible list of moves.
+    # Returns true if the king is in the list.
+
+    piece = startSpace.piece
+    listOfMoves = piece.listMoves
+    count = 0
+
+    listOfMoves.each do |space|
+      count += 1
+      row = space[0]
+      col = space[1]
+      boardSpace = find(row, col)
+      if boardSpace.piece.nil?
+        next
+      elsif boardSpace.piece.name == 'king'
+        return true, count
+      end
+    end
+  end
+
+  def check?(startSpace)
+    # If the move is possible and not blocked return true.
+
+    possible, index = checkPossible?(startSpace)
+    if (possible && !blocked?(startSpace, index))
+      return true
+    else
+      return false
+    end
+  end
 end

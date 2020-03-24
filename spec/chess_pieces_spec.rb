@@ -236,3 +236,27 @@ describe 'Queen piece' do
     end
   end
 end
+
+describe 'Board and King' do
+  context 'Check function' do
+    let(:game) {Board.new}
+    it 'Testing the check function' do
+      kingSpace = game.find(1,1)
+      kingSpace.setPiece(King.new(1, 1, 'White'))
+      rookSpace = game.find(8, 1)
+      rookSpace.setPiece(Rook.new(8, 1, 'Black'))
+      possible, index = game.checkPossible?(rookSpace)
+      expect(possible).to eql(true)
+    end
+
+    it 'Testing check function if blocked' do
+      kingSpace = game.find(1,1)
+      kingSpace.setPiece(King.new(1, 1, 'White'))
+      rookSpace = game.find(8, 1)
+      rookSpace.setPiece(Rook.new(8, 1, 'Black'))
+      pawnSpace = game.find(2,1)
+      pawnSpace.setPiece(Pawn.new(2, 1, 'White'))
+      expect(game.check?(rookSpace)).to eql(false)
+    end
+  end
+end
