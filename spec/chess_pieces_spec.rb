@@ -258,5 +258,14 @@ describe 'Board and King' do
       pawnSpace.setPiece(Pawn.new(2, 1, 'White'))
       expect(game.check?(rookSpace)).to eql(false)
     end
+
+    it 'Testing the check function doesn\'t trigger on same team' do
+      kingSpace = game.find(1,1)
+      kingSpace.setPiece(King.new(1, 1, 'White'))
+      rookSpace = game.find(8, 1)
+      rookSpace.setPiece(Rook.new(8, 1, 'White'))
+      possible, index = game.checkPossible?(rookSpace)
+      expect(possible).to eql(false)
+    end
   end
 end

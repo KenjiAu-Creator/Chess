@@ -11,8 +11,8 @@ class Chess
 
   def initialize()
     @chessBoard = Board.new
-    playersInitialize()
     placePieces()
+    playersInitialize()
     displayBoard()
     #playGame()
   end
@@ -180,6 +180,8 @@ class Chess
   def playersInitialize
     @players = [Player.new(0, 'White'), Player.new(1, 'Black')]
     @currentPlayerId = 0
+    linkPlayerWhitePieces()
+    linkPlayerBlackPieces()
   end
 
   def playGame()
@@ -187,6 +189,7 @@ class Chess
       startSpace, stopSpace = getPlayerMove()
       updateBoard(startSpace, stopSpace, @currentPlayerId, stopSpace.piece.name)
       switchPlayers()
+      checkMessage(stopSpace)
     end
   end
 
@@ -306,6 +309,31 @@ class Chess
 
     return players[@currentPlayerId].pieceList
   end
+
+  def checkMessage(currentPieceSpace)
+    if @chessBoard.check?(currentPieceSpace)
+      puts "Check! You must move your king!"
+    end
+  end
+
+  def linkPlayerWhitePieces
+    for i in 1..2
+      for j in 1..8
+        piece = @chessBoard.find(i,j).piece
+        @players[0].playerLinkedPieces(piece)
+      end
+    end
+  end
+
+  def linkPlayerBlackPieces
+    for i in 7..8
+      for j in 1..8
+        piece = @chessBoard.find(i,j).piece
+        @players[0].playerLinkedPieces(piece)
+      end
+    end
+  end
+
 end
 
 class Player
@@ -322,12 +350,16 @@ class Player
       'knight' => 2,
       'pawn' => 8,
     }
+    @linkedList = []
   end
 
   def updatePieceCount(piece, count)
     @pieceList[piece] = count
   end
     
+  def playerLinkedPieces(piece)
+    @linkedList.push(piece)
+  end
 end
 
 game = Chess.new
