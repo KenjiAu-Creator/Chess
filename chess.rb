@@ -7,7 +7,7 @@ require_relative 'king.rb'
 require_relative 'pawn.rb'
 
 class Chess
-  attr_reader :players
+  attr_reader :players, :chessBoard
 
   def initialize()
     @chessBoard = Board.new
@@ -76,6 +76,7 @@ class Chess
     end
     
     @board[row][colIndex] = "_"
+<<<<<<< HEAD
 
     row = stopSpace.row
     column = stopSpace.column
@@ -131,6 +132,64 @@ class Chess
         token = "\u265F"
       end
     end
+=======
+
+    row = stopSpace.row
+    column = stopSpace.column
+    
+    case column
+    when 1
+      colIndex = 3
+    when 2
+      colIndex = 7
+    when 3
+      colIndex = 11
+    when 4
+      colIndex = 15
+    when 5
+      colIndex = 19
+    when 6
+      colIndex = 23
+    when 7
+      colIndex = 27
+    when 8
+      colIndex = 31
+    end
+
+    case playerId
+    when 1
+      case piece
+      when 'knight'
+        token = "\u2658"
+      when 'rook'
+        token = "\u2656"
+      when 'bishop'
+        token = "\u2657"
+      when 'queen'
+        token = "\u2655"
+      when 'king' 
+        token = "\u2654"
+      when 'pawn'
+        token = "\u2659"
+      end
+    when 0
+      case piece
+      when 'knight'
+        token = "\u265E"
+      when 'rook'
+        token = "\u265C"
+      when 'bishop'
+        token = "\u265D"
+      when 'queen'
+        token = "\u265B"
+      when 'king'
+        token = "\u265A"
+      when 'pawn'
+        token = "\u265F"
+      end
+    end
+
+>>>>>>> AdvancedPawn
     @board[row][colIndex] = token
     puts @board.reverse
   end
@@ -223,9 +282,10 @@ class Chess
 
     col = startSpaceString[2].to_i
     startBoardSpace = @chessBoard.find(rowIndex, col)
+    puts startBoardSpace.piece.listMoves.inspect
 
     puts "Please enter which space you would like to move to."
-    puts "Use #,# to pick the space."
+    puts "Use the format [Letter, number]."
     stopSpaceString = gets.chomp()
     row = stopSpaceString[0]
     case row
@@ -246,10 +306,15 @@ class Chess
     when 'H'
       rowIndex = 8
     end
+
     col = stopSpaceString[2].to_i
     stopBoardSpace = @chessBoard.find(rowIndex, col)
 
-    @chessBoard.move(startBoardSpace, stopBoardSpace)
+    if @chessBoard.move(startBoardSpace, stopBoardSpace)
+      return startBoardSpace, stopBoardSpace
+    else
+      getPlayerMove()
+    end
 
     return startBoardSpace, stopBoardSpace
 
