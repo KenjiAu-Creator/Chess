@@ -29,110 +29,113 @@ describe 'Board' do
 end
 
 describe 'Knight' do
-  context '# New Knight piece' do
+  context 'Knight piece' do
+    let(:game) {Board.new}
     it 'Creates a new knight' do
-      game = Board.new()
-      game.find(1,2).piece = Knight.new(1,2)
+      game.find(1,2).piece = Knight.new(1,2, 'White')
       expect(game.find(1,2).piece).to be_a(Knight)
     end
-  end
 
-  context 'Knight piece' do
     it 'Moves Knight piece from 1,2 to 2,4' do
-      game = Board.new()
       startSpace = game.find(1,2)
-      startSpace.setPiece(Knight.new(1,2))
+      startSpace.setPiece(Knight.new(1,2, 'White'))
       stopSpace = game.find(2,4)
       game.move(startSpace,stopSpace)
-      
       expect(game.find(2,4).piece).to be_a(Knight)
     end
-  end
 
-  context 'Knight piece' do
     it 'Removes Knight piece from 1,2 after moving to 2,4' do
-      game = Board.new()
       startSpace = game.find(1,2)
-      startSpace.setPiece(Knight.new(1,2))
+      startSpace.setPiece(Knight.new(1,2, 'White'))
       stopSpace = game.find(2,4)
       game.move(startSpace,stopSpace)
-      
       expect(game.find(1,2).piece).to eql(nil)
     end
-  end
 
-  context 'Knight piece' do
     it 'Checks moving 1,2 to 1,3 is a valid move' do
-      game = Board.new
       startSpace = game.find(1,2)
       stopSpace = game.find(1,3)
-      startSpace.setPiece(Knight.new(1,2))
-
+      startSpace.setPiece(Knight.new(1,2, 'White'))
       expect(game.validMove(startSpace, stopSpace)).to eql(false)
     end
   end
 end
 
 describe 'Pawn piece' do
-  context '# New pawn piece' do
+  context '#pawn piece' do
+    let(:game) {Board.new}
      it "Creates new pawn" do
-      game = Board.new
       startSpace = game.find(2,1)
-      startSpace.setPiece(Pawn.new(2,1, 'white'))
-
+      startSpace.setPiece(Pawn.new(2,1, 'White'))
       expect(game.find(2,1).piece).to be_a(Pawn)
     end
-  end
 
-  context '#Move pawn piece' do
     it 'Moves pawn from 2,2 to 3,2' do
-      game = Board.new
       startSpace = game.find(2,2)
-      startSpace.setPiece(Pawn.new(2, 2, 'white'))
+      startSpace.setPiece(Pawn.new(2, 2, 'White'))
       stopSpace = game.find(3,2)
       game.move(startSpace, stopSpace)
       expect(game.find(3,2).piece).to be_a(Pawn)
-
     end
-  end
 
-  context '#Move black pawn' do
     it 'Invalid move with black moving backwards' do
-      game = Board.new
       startSpace = game.find(6,1)
-      startSpace.setPiece(Pawn.new(6,1, 'black'))
+      startSpace.setPiece(Pawn.new(6,1, 'Black'))
       stopSpace = game.find(7,1)
+      expect(game.validMove(startSpace, stopSpace)).to eql(false)
+    end
+
+    it 'Moves two spaces forward' do
+      startSpace = game.find(7,1)
+      startSpace.setPiece(Pawn.new(7,1,'Black'))
+      stopSpace = game.find(5,1)
+      expect(game.validMove(startSpace, stopSpace)).to eql(true)
+    end
+  
+    it 'Moves two spaces forward' do
+      startSpace = game.find(2,1)
+      startSpace.setPiece(Pawn.new(2,1,'White'))
+      stopSpace = game.find(4,1)
+      expect(game.validMove(startSpace, stopSpace)).to eql(true)
+    end
+  
+    it 'Pawn attack move' do
+      startSpace = game.find(3,3)
+      startSpace.setPiece(Pawn.new(3,3, 'White'))
+      stopSpace = game.find(4,4)
+      stopSpace.setPiece(Pawn.new(4,4,'Black'))
+      expect(game.validMove(startSpace, stopSpace)).to eql(true)
+    end
+
+    it 'False attack move' do 
+      startSpace = game.find(3,3)
+      startSpace.setPiece(Pawn.new(3,3, 'White'))
+      stopSpace = game.find(4,4)
       expect(game.validMove(startSpace, stopSpace)).to eql(false)
     end
   end
 end
 
 describe 'Rook piece' do
-  context '#New Rook piece' do
+  context 'Rook piece' do
+    let(:game) {Board.new}
     it 'Creates new Rook' do
-      game = Board.new
       startSpace = game.find(1,1)
-      startSpace.setPiece(Rook.new(1,1, 'white'))
+      startSpace.setPiece(Rook.new(1,1, 'White'))
       expect(game.find(1,1).piece).to be_a(Rook)
     end
-  end
 
-  context 'Rook piece' do
     it 'Moves Rook from 1,1 to 1,5' do
-      game = Board.new
       startSpace = game.find(1,1)
-      startSpace.setPiece(Rook.new(1,1, 'white'))
+      startSpace.setPiece(Rook.new(1,1, 'White'))
       stopSpace = game.find(1,5)
       game.move(startSpace, stopSpace)
       expect(game.find(1,5).piece).to be_a(Rook)
     end
-  end
 
-  context 'Rook piece' do
     it 'Moves rook from 1,1 to 7,1' do
-      game = Board.new
       startSpace = game.find(1,1)
-      startSpace.setPiece(Rook.new(1,1, 'white'))
+      startSpace.setPiece(Rook.new(1,1, 'White'))
       stopSpace = game.find(7,1)
       game.move(startSpace, stopSpace)
       expect(game.find(7,1).piece).to be_a(Rook)
@@ -141,115 +144,92 @@ describe 'Rook piece' do
 end
 
 describe 'King piece' do
-  context '#New King piece' do
+  context 'King piece' do
+    let(:game) {Board.new}
     it 'Creates the king' do
-      game = Board.new
       startSpace = game.find(1,4)
-      startSpace.setPiece(King.new(1,4,'white'))
+      startSpace.setPiece(King.new(1,4,'White'))
       expect(game.find(1,4).piece).to be_a(King)
     end
-  end
 
-  context '#Move king piece' do
     it 'Moves the king one space to the left' do
-      game = Board.new
       startSpace = game.find(1,4)
       stopSpace = game.find(1,3)
-      startSpace.setPiece(King.new(1,4,'white'))
+      startSpace.setPiece(King.new(1,4,'White'))
       game.move(startSpace, stopSpace)
       expect(game.find(1,3).piece).to be_a(King)
     end
-  end
 
-  context '#Move king piece' do
-    it "Tries to move the kind two spaces" do
-      game = Board.new
+    it "Tries to move the king two spaces" do
       startSpace = game.find(1,3)
       stopSpace = game.find(1,5)
-      startSpace.setPiece(King.new(1,3,'white'))
+      startSpace.setPiece(King.new(1,3,'White'))
       expect(game.validMove(startSpace, stopSpace)).to eql(false)
     end
-  end
   
-  context '#Move King piece' do
     it "Tries to move king off the board" do
-      game = Board.new
       startSpace = game.find(1,3)
-      startSpace.setPiece(King.new(1, 3, 'white'))
+      startSpace.setPiece(King.new(1, 3, 'White'))
       stopSpace = BoardSpace.new(0,3)
       expect(game.validMove(startSpace, stopSpace)).to eql(false)
     end
   end
 end
+
 describe 'bishop' do
   context '#New bishop piece' do
+    let(:game) {Board.new}
     it 'creates a new bishop' do
-      game = Board.new
       startSpace = game.find(1,3)
-      startSpace.setPiece(Bishop.new(1,3,'white'))
+      startSpace.setPiece(Bishop.new(1,3,'White'))
       expect(game.find(1,3).piece).to be_a(Bishop)
     end
-  end
 
-  context '#Move bishop piece' do
     it 'Moves bishop from 1,3 to 3,5' do
-      game = Board.new
       startSpace = game.find(1,3)
       stopSpace = game.find(3,5)
-      startSpace.setPiece(Bishop.new(1, 3, 'white'))
-      
+      startSpace.setPiece(Bishop.new(1, 3, 'White'))
       game.move(startSpace, stopSpace)
       expect(game.find(3,5).piece).to be_a(Bishop)
     end
-  end
 
-  context '#Move Bishop' do
     it 'checks moving from 1,3 to 2,3 is a valid move' do
-      game = Board.new
       startSpace = game.find(1,3)
       stopSpace = game.find(2,3)
-      startSpace.setPiece(Bishop.new(1,3, 'white'))
+      startSpace.setPiece(Bishop.new(1,3, 'White'))
       expect(game.validMove(startSpace, stopSpace)).to eql(false)
     end
-  end
 
-  context '#Move Bishop' do
     it 'checks moving from 1,3 to 2,2 is a valid move' do
-      game = Board.new
       startSpace = game.find(1,3)
       stopSpace = game.find(2,2)
-      startSpace.setPiece(Bishop.new(1,3, 'white'))
+      startSpace.setPiece(Bishop.new(1,3, 'White'))
       game.move(startSpace, stopSpace)
       expect(game.find(2,2).piece).to be_a(Bishop)
     end
   end
 end
+
 describe 'Queen piece' do
   context '#New Queen piece' do
+    let(:game) {Board.new}
     it 'Creates a new queen' do
-      game = Board.new
       startSpace = game.find(1,5)
-      startSpace.setPiece(Queen.new(1,5,'white'))
+      startSpace.setPiece(Queen.new(1,5,'White'))
       expect(game.find(1,5).piece).to be_a(Queen)
     end
-  end
 
-  context '#Move Queen like bishop' do
-    it 'Moves like a bishop' do
-      game = Board.new
+   it 'Moves like a bishop' do
       startSpace = game.find(1,5)
-      startSpace.setPiece(Queen.new(1,5,'white'))
+      startSpace.setPiece(Queen.new(1,5,'White'))
       stopSpace = game.find(3,7)
       game.move(startSpace, stopSpace)
       expect(game.find(3,7).piece).to be_a(Queen)
     end
-  end
 
-  context '#Move queen' do
     it 'Moves like a rook' do
-      game = Board.new
       startSpace = game.find(1,5)
-      startSpace.setPiece(Queen.new(1,5,'white'))
+      startSpace.setPiece(Queen.new(1,5,'White'))
       stopSpace = game.find(6,5)
       game.move(startSpace, stopSpace)
       expect(game.find(6,5).piece).to be_a(Queen)
