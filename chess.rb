@@ -5,20 +5,19 @@ require_relative 'bishop.rb'
 require_relative 'queen.rb'
 require_relative 'king.rb'
 require_relative 'pawn.rb'
+require "json"
 
 class Chess
   attr_reader :players, :chessBoard
+  @@game_id = 0
 
   def initialize()
-    @chessBoard = Board.new
-    placePieces()
-    playersInitialize()
-    displayBoard()
-    #playGame()
+    puts "Welcome to command line Chess!"
+    new_or_load()
   end
 
 
-  def displayBoard
+  def createDisplayBoard
     knightB = "\u2658"
     rookB = "\u2656"
     bishopB = "\u2657"
@@ -128,6 +127,10 @@ class Chess
       end
     end
     @board[row][colIndex] = token
+    puts @board.reverse
+  end
+
+  def displayBoard
     puts @board.reverse
   end
 
@@ -334,6 +337,79 @@ class Chess
     end
   end
 
+  def save
+    Dir.mkdir("Saves") unless Dir.exists?("Saves")
+
+    file_name = "Saves/save_file_#{@@game_id}.json"
+
+    save_file = self.to_json
+
+    File.open(file_name, 'w') do |file|
+      file.puts save_file
+    end
+  end
+
+  def to_json(*args)
+    {'Board Data' => @chessBoard,
+     'Board Graphics' => @board,
+     'Player Data' => @players,
+     'Current Player' => @currentPlayerId,
+    }.to_json(*args)
+  end
+
+  def new_or_load
+    puts "Would you like to play a new game or load a previous one?"
+    choice = gets.chomp.downcase
+    if choice == "new"
+      new_game
+    elsif choice == "load"
+      load_choice
+    else
+      puts "Invalid choice"
+      new_or_load
+    end
+  end
+
+  def new_game
+    @chessBoard = Board.new
+    @@game_id += 1
+    placePieces()
+    playersInitialize()
+    createDisplayBoard()
+    #playGame()
+  end
+
+  def load_choice
+    puts "Which save file would you like to load?"
+    puts "Please enter just the number to choose"
+    puts "Save files:"
+    Dir.entries("Saves").select do |file|
+      if (!File.directory? file)
+        puts file
+      end
+    end
+
+    load_chosen = gets.chomp.downcase
+
+    if File.exist?("Saves/save_file_#{load_chosen}.json")
+      extract_load_data(load_chosen)
+      displayBoard()
+      # playGame function
+    else
+      puts "Error file not found"
+      puts "========================================"
+    end
+  end
+
+  def extract_load_data(load_choice)
+    #load_file = File.open("Saves/#{load_choice}",'r')
+    load_file = File.read("Saves/save_file_#{load_choice}.json")
+    data_hash = JSON.parse(load_file)
+    @chessBoard = data_hash['Board Data']
+    @board = data_hash['Board Graphics']
+    @players = data_hash['Player Data']
+    @currentPlayerId = data_hash['Current Player']
+  end
 end
 
 class Player
@@ -360,6 +436,7 @@ class Player
   def playerLinkedPieces(piece)
     @linkedList.push(piece)
   end
+
 end
 
 game = Chess.new
