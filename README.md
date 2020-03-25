@@ -11,4 +11,4 @@ Chess is a two-player strategy board game played on a checkered board with 64 sq
 
 Each player begins withs 16 pieces: one king, one queen, two rooks, two knights, two bishops, and eight pawns. Each piece type moves differently, with the most powerful being the queen and the least powerful the pawn. 
 
-The objective is to checkmate the opponents king by placing it undeer an inescapable threat of capture. 
+The objective is to checkmate the opponents king by placing it into an inescapable threat of capture. 

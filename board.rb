@@ -170,7 +170,7 @@ class Board
     end
   end
 
-  def kingMove(startSpace, stopSpace)
+  def kingPossibleMove?(startSpace, stopSpace)
     #This method will return true if the king can move
     # It will return false if the desired new position is a check
     # Need to iterate through each of kings moves and then iterate 
