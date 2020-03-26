@@ -43,6 +43,10 @@ class Board
       stop.piece.resetMoves
       stop.piece.updatePosition(stop.row, stop.column)
       stop.piece.possibleMoves
+
+      if stop.piece.name == 'pawn'
+        pawnPromote(stop)
+      end
       
       start.setPiece(nil)
       return true
@@ -167,6 +171,50 @@ class Board
 
     else
       return false
+    end
+  end
+
+  def pawnPromote(stopSpace)
+    # Assumes that the piece moved is a pawn
+    piece = stopSpace.piece
+    row = stopSpace.row
+    col = stopSpace.column
+
+      if @team == 'white' && @row == 8
+        # Piece can become a queen, rook, knight or bishop
+        puts "Please enter which piece you would like to promote the pawn to:"
+        puts "queen, rook, knight or bishop"
+        choice = gets.chomp.downcase
+        case choice
+        when 'queen'
+          promoted = Queen.new(row,col 'White')
+        when 'rook'
+          promoted = Rook.new(row, col, 'White')
+        when 'knight'
+          promted = Knight.new(row, col, 'White')
+        when 'bishop'
+          promoted = Bishop.new(row, col, 'White')
+        end
+
+        stopSpace.setPiece(promoted)
+      elsif @team == 'black' && @row == 1
+        # Piece can become a queen, rook, knight or bishop
+        puts "Please enter which piece you would like to promote the pawn to:"
+        puts "queen, rook, knight or bishop"
+        choice = gets.chomp.downcase
+
+        case choice
+        when 'queen'
+          promoted = Queen.new(row,col 'Black')
+        when 'rook'
+          promoted = Rook.new(row, col, 'Black')
+        when 'knight'
+          promted = Knight.new(row, col, 'Black')
+        when 'bishop'
+          promoted = Bishop.new(row, col, 'Black')
+        end
+        stopSpace.setPiece(promoted)
+      end
     end
   end
 end
