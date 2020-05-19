@@ -11,6 +11,7 @@ class Chess
 
   def initialize()
     @chessBoard = Board.new
+    intro()
     playersInitialize()
     placePieces()
     displayBoard()
@@ -18,8 +19,9 @@ class Chess
   end
 
   def intro
-    puts "Welcome to the game of Chess."
-    puts "The objective of this game is to take the other players King piece."
+    puts "Welcome to command line Chess."
+    puts "The objective of this game is to take the other player's King piece."
+    puts "==================================================================="
   end
 
   def displayBoard
@@ -187,7 +189,6 @@ class Chess
   end
 
   def playGame()
-    intro()
     while !gameOver?
       startSpace, stopSpace = getPlayerMove()
       updateBoard(startSpace, stopSpace, @currentPlayerId, stopSpace.piece.name)
@@ -196,6 +197,7 @@ class Chess
   end
 
   def getPlayerMove()
+    puts "==================================================================="
     puts "#{@players[@currentPlayerId].team}\'s turn"
     puts "Please enter which piece you would like to move."
     puts "Use the format [Letter, number]."
@@ -223,50 +225,48 @@ class Chess
 
     col = startSpaceString[2].to_i
     startBoardSpace = @chessBoard.find(rowIndex, col)
-    puts "Please enter which space you would like to move to."
-    puts "Use #,# to pick the space."
-    puts startBoardSpace.piece.listMoves.inspect
 
-    puts "Please enter which space you would like to move to."
-    puts "Use the format [Letter, number]."
-
-    stopSpaceString = gets.chomp()
-    row = stopSpaceString[0]
-    case row
-    when 'A'
-      rowIndex = 1
-    when 'B'
-      rowIndex = 2
-    when 'C'
-      rowIndex = 3
-    when 'D'
-      rowIndex = 4
-    when 'E'
-      rowIndex = 5
-    when 'F'
-      rowIndex = 6
-    when 'G'
-      rowIndex = 7
-    when 'H'
-      rowIndex = 8
-    end
-
-    col = stopSpaceString[2].to_i
-    stopBoardSpace = @chessBoard.find(rowIndex, col)
-
-    @chessBoard.move(startBoardSpace, stopBoardSpace)
-
-    col = stopSpaceString[2].to_i
-    stopBoardSpace = @chessBoard.find(rowIndex, col)
-
-    if @chessBoard.move(startBoardSpace, stopBoardSpace)
-      return startBoardSpace, stopBoardSpace
-    else
+    # Need to check if the piece belongs to the players team
+    if startBoardSpace.piece.team != @players[@currentPlayerId].team
+      puts "Thats not your team's piece! Please pick another one"
       getPlayerMove()
+    else
+      # Possible moves for selected piece
+      # puts startBoardSpace.piece.listMoves.inspect
+
+      puts "==================================================================="
+      puts "Please enter which space you would like to move to."
+      puts "Use the format [Letter, number]."
+      stopSpaceString = gets.chomp()
+      row = stopSpaceString[0]
+      case row
+      when 'A'
+        rowIndex = 1
+      when 'B'
+        rowIndex = 2
+      when 'C'
+        rowIndex = 3
+      when 'D'
+        rowIndex = 4
+      when 'E'
+        rowIndex = 5
+      when 'F'
+        rowIndex = 6
+      when 'G'
+        rowIndex = 7
+      when 'H'
+        rowIndex = 8
+      end
+
+      col = stopSpaceString[2].to_i
+      stopBoardSpace = @chessBoard.find(rowIndex, col)
+
+      if @chessBoard.move(startBoardSpace, stopBoardSpace)
+        return startBoardSpace, stopBoardSpace
+      else
+        getPlayerMove()
+      end
     end
-
-    return startBoardSpace, stopBoardSpace
-
   end
 
   def switchPlayers
@@ -332,7 +332,6 @@ class Player
   def updatePieceCount(piece, count)
     @pieceList[piece] = count
   end
-    
 end
 
 game = Chess.new
