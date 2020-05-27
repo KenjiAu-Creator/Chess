@@ -1,3 +1,5 @@
+This project is the final project to The Odin Project's Ruby module.
+
 Assignment
 
 1. Build a command line Chess game where two players can play against each other.
