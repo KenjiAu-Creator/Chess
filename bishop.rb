@@ -1,5 +1,5 @@
 class Bishop
-  attr_accessor :row, :name, :column, :listMoves
+  attr_accessor :row, :name, :column, :team, :listMoves
   def initialize(row, column, color)
     @row = row
     @column = column
