@@ -73,8 +73,10 @@ class Board
       return false
 
     elsif collision?(startSpace, stopSpace)
+      # Make sure that a piece of the same color isn't on the spot.
       return false
-    elsif startSpace.piece.name != "pawn" && blocked?(startSpace, iML[1])
+    elsif ((startSpace.piece.name != "pawn"  && startSpace.piece.name != "knight") && blocked?(startSpace, iML[1]))
+      # Check if the piece is not a pawn or knight. Make sure that the travel path isn't blocked by another piece.
       return false
     else
       return true
@@ -129,11 +131,14 @@ class Board
 
   def blocked?(startSpace, index)
     # Returns true if the moving piece has a another piece in its path to the desired space
+    # This method works for all pieces except the knight piece.
 
     listOfMoves = startSpace.piece.listMoves
     rootRow = startSpace.row
     rootCol = startSpace.column
     count = index - 1
+    print count
+    print listOfMoves
 
     # Starts at right before the index (end spot) and checks if a piece exists.
     # Works backwards until it is at the starting space.
