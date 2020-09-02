@@ -69,7 +69,10 @@ class Board
       # Makes sure the start isn't the ending space
       return false
 
-    elsif !(iML[0])
+    elsif (iML[0] == false)
+      # The first element of iML must be true otherwise the move is not in the move list.
+      print iML
+      print ""
       return false
 
     elsif collision?(startSpace, stopSpace)
@@ -100,6 +103,7 @@ class Board
     count = 0
 
     startSpace.piece.listMoves.each do |boardSpace|
+      print boardSpace
       startRow = boardSpace[0]
       startCol = boardSpace[1]
 
