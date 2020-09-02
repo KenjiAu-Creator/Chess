@@ -137,8 +137,6 @@ class Board
     rootRow = startSpace.row
     rootCol = startSpace.column
     count = index - 1
-    print count
-    print listOfMoves
 
     # Starts at right before the index (end spot) and checks if a piece exists.
     # Works backwards until it is at the starting space.
