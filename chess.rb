@@ -193,6 +193,7 @@ class Chess
       startSpace, stopSpace = getPlayerMove()
       updateBoard(startSpace, stopSpace, @currentPlayerId, stopSpace.piece.name)
       switchPlayers()
+      pieceCount()
     end
   end
 
@@ -285,6 +286,7 @@ class Chess
   def gameOver?
     kingCount = players[@currentPlayerId].pieceList['king']
     if kingCount == 0
+      print "#{players[@currentPlayerId].team} team wins!\n"
       return true
     else
       return false

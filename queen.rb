@@ -53,7 +53,7 @@ class Queen
     row = @row
     col = @column
 
-    while row < 8 && col < 8
+    while row < 9 && col < 9
       move = [row,col]
       @listMoves.push(move)
       row += 1
@@ -63,7 +63,7 @@ class Queen
     row = @row
     col = @column
 
-    while row < 8 && col > 1
+    while row < 9 && col > 0
       move = [row,col]
       @listMoves.push(move)
       row += 1
@@ -73,7 +73,7 @@ class Queen
     row = @row
     col = @column
 
-    while row > 1 && col < 8
+    while row > 0 && col < 9
       move = [row,col]
       @listMoves.push(move)
       row -= 1
@@ -83,7 +83,7 @@ class Queen
     row = @row
     col = @column
 
-    while row > 1 && col > 1
+    while row > 0 && col > 0
       move = [row,col]
       @listMoves.push(move)
       row -= 1
